@@ -384,9 +384,6 @@ cia al metodo getListar del controlador de ese modulo...............
     {
         $this->fpdf= new FPDF();
         $this->fpdf->AddPage();
-
-
-
         $this->fpdf->SetFont('Arial','',14);
         $this->fpdf->Cell(50,40,'Reporte del Trabajador',0,0,'C');
         //$this->fpdf->Image(public_path().'/img/logo/logo.png',80,20,90,0);
