@@ -155,7 +155,7 @@ return [
         Colmena\Providers\AuthServiceProvider::class,
         Colmena\Providers\EventServiceProvider::class,
         Colmena\Providers\RouteServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        Codedge\Fpdf\FpdfServiceProvider::class
 
     ],
 
@@ -202,7 +202,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-        'PDF'       => Barryvdh\DomPDF\Facade::class,
+        'FPDF'      =>Codedge\Fpdf\FpdfServiceProvider::class
 
     ],
 

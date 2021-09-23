@@ -3,6 +3,7 @@
 *@author QSoto
 */
 namespace Colmena\Http\Controllers;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use Colmena\Http\Requests;
 
@@ -369,11 +370,65 @@ cia al metodo getListar del controlador de ese modulo...............
         $data = array('usuarios'=>$usuarios, 'perRepos'=>$perRepos, 'tareas'=>$tareas, 
                     'startdate'=>$request->input('startdate'), 'enddate'=>$request->input('enddate'), 'descripcion'=>$descripcion);
         //dd($data);
-        $reporte = PDF::loadView('usuarios/reporte', $data);
+        //$reporte = PDF::loadView('usuarios/reporte', $data);
 
         $Ousuarios=Cusuario::where('username', '!=', env('APP_DEV_USERNAME'))->get();
         //return redirect("usuarios/listar")->with(['Ousuarios'=>$Ousuarios, 'estado'=>'realizado'])
          //                                 ->with($reporte->download('reporte.pdf'));
-        return $reporte->download('reporte.pdf');
+
+
+        return $this->createPDF($data);
+    }
+
+    public function createPDF($data)
+    {
+        $this->fpdf= new FPDF();
+        $this->fpdf->AddPage();
+
+
+
+        $this->fpdf->SetFont('Arial','',14);
+        $this->fpdf->Cell(50,40,'Reporte del Trabajador',0,0,'C');
+        //$this->fpdf->Image(public_path().'/img/logo/logo.png',80,20,90,0);
+
+        $this->fpdf->Ln();
+        $this->fpdf->SetFont('Times','',12);
+        $this->fpdf->Cell(40,10,utf8_decode('Nombre del trabajador: '. $data["usuarios"][0]['attributes']['nombres'] . " " . $data["usuarios"][0]['attributes']['apellidos']));
+        $this->fpdf->Ln();
+        $this->fpdf->Cell(40,10,utf8_decode('Fecha de inicio: '. $data["startdate"]));
+        $this->fpdf->Ln();
+        $this->fpdf->Cell(40,10,utf8_decode('Fecha de Fin: '. $data["enddate"]));
+        $this->fpdf->Ln();
+
+        $dataDividida  = $data["descripcion"];
+        $porciones = explode(":", $dataDividida);
+        $otro = $porciones[1];
+        $aux = explode(",", $otro);
+
+
+
+        $this->fpdf->Cell(40,10,utf8_decode('Motivo de la Ausencia: '. $aux[0]));
+        $this->fpdf->Output("reporte.pdf","F");
+        dd($this->downloadFile(public_path()."/reporte.pdf"));
+    }
+
+
+    protected function downloadFile($src)
+    {
+        if(is_file($src)){
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $content_type = finfo_file($finfo, $src);
+            finfo_close($finfo);
+            $file_name = basename($src).PHP_EOL;
+            $size = filesize($src);
+            header("Content-Type: $content_type");
+            header("Content-Disposition: attachment; filename=$file_name");
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: $size");
+            readfile($src);
+            return true;
+        } else{
+            return false;
+        }
     }
 }

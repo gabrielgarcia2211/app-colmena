@@ -13,9 +13,12 @@ use Colmena\CpermRepo;
 use Colmena\Cusuario;
 use Auth;
 use Carbon\Carbon;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 class CcarteleraController extends Controller
 {
+    private $fpdf;
+
     public function __construct(){
         $this->middleware("auth");
     }
@@ -41,8 +44,9 @@ class CcarteleraController extends Controller
             //En las siguientes linea el 5 representa el numero maximo de dias a partir de el actual
             //que se tomara en cuenta para mostrar
             if(($OfechaHoy->diffInDays($OfechaNacimiento) < 5 ||
-                    $OfechaNacimiento->isBirthday()) &&
-                    !$OfechaNacimiento->isPast()){
+                    $OfechaNacimiento->isBirthday())){
+                //&&
+                //                    !$OfechaNacimiento->isPast()
                 $diasTotales = 5;
                 $diasFaltantes = $OfechaHoy->diffInDays($OfechaNacimiento);
                 $porcentaje = 100;
@@ -137,4 +141,13 @@ class CcarteleraController extends Controller
                 ->with('pendientes', $pendientes)
                 ->with('clasesCssPorTipo', $clasesCssPorTipo);
     }
+
+
+
+
+
+
+
+
+
 }

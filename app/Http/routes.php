@@ -19,8 +19,14 @@
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+
+
 Route::group(['middleware' => ['web']], function () {
     //
+
+    //Route::get('/pdf', 'CcarteleraController@createPDF');
+
+
     //Ruta de about
     Route::get('/acerca-de', function(){
         //Leer el contenido del archivo de cambios

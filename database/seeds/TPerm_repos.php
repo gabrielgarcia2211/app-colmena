@@ -26,7 +26,7 @@ class TPerm_repos extends Seeder
             'fecIni'=>$faker->unique()->date($format = 'Y-m-d', $max = 'now'),
             'fecFin'=>$faker->unique()->date($format = 'Y-m-d', $max = 'now'),
 	        'detalle'=>'pan tostado con queso y jugo de naranja :D',
-            'idUsu' => $faker->randomElement($idUsu)
+            'idUsu' => $faker->randomElement($idUsu),
             'created_at'=>$faker->date($format = 'Y-m-d', $max = 'now'),
             'updated_at'=>$faker->date($format = 'Y-m-d', $max = 'now')
 	    	]);
